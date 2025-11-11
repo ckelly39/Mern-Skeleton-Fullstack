@@ -4,15 +4,16 @@ import authMiddleware from '../auth.middleware.js';
 
 const router = express.Router();
 
-// Public route - anyone can list users
+// GET all users - PROTECTED
 router.route('/api/users')
-  .get(userCtrl.list);
+  .get(authMiddleware.requireSignin, userCtrl.list)
+  .delete(authMiddleware.requireSignin, userCtrl.removeAll);
 
-// Protected routes - require authentication
+// GET/PUT/DELETE single user by ID - PROTECTED
 router.route('/api/users/:userId')
   .get(authMiddleware.requireSignin, userCtrl.read)
-  .put(authMiddleware.requireSignin, authMiddleware.hasAuthorization, userCtrl.update)
-  .delete(authMiddleware.requireSignin, authMiddleware.hasAuthorization, userCtrl.remove);
+  .put(authMiddleware.requireSignin, userCtrl.update)
+  .delete(authMiddleware.requireSignin, userCtrl.remove);
 
 // Param middleware to load user by ID
 router.param('userId', userCtrl.userByID);

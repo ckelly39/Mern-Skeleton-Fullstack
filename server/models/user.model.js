@@ -16,7 +16,8 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    minlength: 6
   },
   created: {
     type: Date,
@@ -38,8 +39,10 @@ userSchema.pre('save', async function(next) {
   }
   
   try {
-    // Generate salt and hash password
+    // Generate salt (random data added to password)
     const salt = await bcrypt.genSalt(10);
+    
+    // Hash the password with the salt
     this.password = await bcrypt.hash(this.password, salt);
     next();
   } catch (err) {
@@ -47,7 +50,7 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-// Method to compare passwords
+// Method to compare passwords during login
 userSchema.methods.comparePassword = async function(candidatePassword) {
   try {
     return await bcrypt.compare(candidatePassword, this.password);

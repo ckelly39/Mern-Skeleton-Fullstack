@@ -1,19 +1,20 @@
 import express from 'express';
 import contactCtrl from '../controllers/contact.controller.js';
+import authMiddleware from '../auth.middleware.js';
 
 const router = express.Router();
 
-// GET all contacts
+// GET all contacts - PROTECTED
 router.route('/api/contacts')
-  .get(contactCtrl.list)
-  .post(contactCtrl.create)
-  .delete(contactCtrl.removeAll);
+  .get(authMiddleware.requireSignin, contactCtrl.list)
+  .post(authMiddleware.requireSignin, contactCtrl.create)
+  .delete(authMiddleware.requireSignin, contactCtrl.removeAll);
 
-// GET/PUT/DELETE single contact by ID
+// GET/PUT/DELETE single contact by ID - PROTECTED
 router.route('/api/contacts/:contactId')
-  .get(contactCtrl.read)
-  .put(contactCtrl.update)
-  .delete(contactCtrl.remove);
+  .get(authMiddleware.requireSignin, contactCtrl.read)
+  .put(authMiddleware.requireSignin, contactCtrl.update)
+  .delete(authMiddleware.requireSignin, contactCtrl.remove);
 
 // Param middleware to load contact by ID
 router.param('contactId', contactCtrl.contactByID);
