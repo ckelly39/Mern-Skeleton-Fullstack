@@ -10,4 +10,3 @@ process.env.MONGO_HOST ||
 '/mernproject'
 }
 export default config
-// "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTEzNTBjYWQ4OGI1NDg1ZjVkOWE3MTAiLCJpYXQiOjE3NjI4NzQ3MzcsImV4cCI6MTc2Mjk2MTEzN30.Lf7AhfoiAxtbdCuPGiOTIQNm1k1AiP2L7EegxfSP3HA"
