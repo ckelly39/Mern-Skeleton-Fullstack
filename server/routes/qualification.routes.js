@@ -4,19 +4,17 @@ import authMiddleware from '../auth.middleware.js';
 
 const router = express.Router();
 
-// GET all qualifications - PROTECTED
+// Qualifications routes - Admin only for create/update/delete
 router.route('/api/qualifications')
-  .get(authMiddleware.requireSignin, qualificationCtrl.list)
-  .post(authMiddleware.requireSignin, qualificationCtrl.create)
-  .delete(authMiddleware.requireSignin, qualificationCtrl.removeAll);
+  .get(authMiddleware.requireSignin, qualificationCtrl.list)  // Anyone logged in
+  .post(authMiddleware.requireSignin, authMiddleware.isAdmin, qualificationCtrl.create)  // Admin only!
+  .delete(authMiddleware.requireSignin, authMiddleware.isAdmin, qualificationCtrl.removeAll);  // Admin only!
 
-// GET/PUT/DELETE single qualification by ID - PROTECTED
 router.route('/api/qualifications/:qualificationId')
-  .get(authMiddleware.requireSignin, qualificationCtrl.read)
-  .put(authMiddleware.requireSignin, qualificationCtrl.update)
-  .delete(authMiddleware.requireSignin, qualificationCtrl.remove);
+  .get(authMiddleware.requireSignin, qualificationCtrl.read)  // Anyone logged in
+  .put(authMiddleware.requireSignin, authMiddleware.isAdmin, qualificationCtrl.update)  // Admin only!
+  .delete(authMiddleware.requireSignin, authMiddleware.isAdmin, qualificationCtrl.remove);  // Admin only!
 
-// Param middleware to load qualification by ID
 router.param('qualificationId', qualificationCtrl.qualificationByID);
 
 export default router;

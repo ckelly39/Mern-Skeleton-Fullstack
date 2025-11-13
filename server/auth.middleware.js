@@ -46,7 +46,19 @@ const hasAuthorization = (req, res, next) => {
   next();
 };
 
+// NEW: Middleware to check if user is admin
+const isAdmin = (req, res, next) => {
+  if (req.auth && req.auth.role === 'admin') {
+    next();
+  } else {
+    return res.status(403).json({
+      error: "Admin access required!"
+    });
+  }
+};
+
 export default {
   requireSignin,
-  hasAuthorization
+  hasAuthorization,
+  isAdmin
 };

@@ -4,19 +4,17 @@ import authMiddleware from '../auth.middleware.js';
 
 const router = express.Router();
 
-// GET all projects - PROTECTED
+// Projects routes - Admin only for create/update/delete
 router.route('/api/projects')
-  .get(authMiddleware.requireSignin, projectCtrl.list)
-  .post(authMiddleware.requireSignin, projectCtrl.create)
-  .delete(authMiddleware.requireSignin, projectCtrl.removeAll);
+  .get(authMiddleware.requireSignin, projectCtrl.list)  // Anyone logged in
+  .post(authMiddleware.requireSignin, authMiddleware.isAdmin, projectCtrl.create)  // Admin only!
+  .delete(authMiddleware.requireSignin, authMiddleware.isAdmin, projectCtrl.removeAll);  // Admin only!
 
-// GET/PUT/DELETE single project by ID - PROTECTED
 router.route('/api/projects/:projectId')
-  .get(authMiddleware.requireSignin, projectCtrl.read)
-  .put(authMiddleware.requireSignin, projectCtrl.update)
-  .delete(authMiddleware.requireSignin, projectCtrl.remove);
+  .get(authMiddleware.requireSignin, projectCtrl.read)  // Anyone logged in
+  .put(authMiddleware.requireSignin, authMiddleware.isAdmin, projectCtrl.update)  // Admin only!
+  .delete(authMiddleware.requireSignin, authMiddleware.isAdmin, projectCtrl.remove);  // Admin only!
 
-// Param middleware to load project by ID
 router.param('projectId', projectCtrl.projectByID);
 
 export default router;

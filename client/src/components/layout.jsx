@@ -33,9 +33,9 @@ export default function Layout() {
                 {isAuthenticated ? (
                     <>
                         {' | '}
-                        <span style={{ color: '#4CAF50' }}>
-                            Welcome, {user?.name}!
-                        </span>
+                            <span style={{ color: '#4CAF50' }}>
+                            Welcome, {user?.name}! {user?.role === 'admin' && '👑 (Admin)'}
+                            </span>
                         {' | '}
                         <button 
                             onClick={handleLogout}

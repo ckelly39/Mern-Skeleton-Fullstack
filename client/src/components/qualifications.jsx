@@ -3,7 +3,7 @@ import { listQualifications, createQualification, deleteQualification } from '..
 import { AuthContext } from '../auth/AuthContext';
 
 export default function Qualifications() {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, isAdmin } = useContext(AuthContext);
   const [qualifications, setQualifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -140,7 +140,7 @@ export default function Qualifications() {
     <div style={styles.container}>
       <h2>Education & Qualifications</h2>
       
-      {isAuthenticated && (
+      {isAdmin && (
         <>
           {!showForm ? (
             <button style={styles.addBtn} onClick={() => setShowForm(true)}>
@@ -218,11 +218,11 @@ export default function Qualifications() {
 
       <div style={styles.list}>
         {qualifications.length === 0 ? (
-          <p>No qualifications yet. {isAuthenticated ? 'Click "Add New Qualification" to create one!' : 'Sign in to add qualifications.'}</p>
+          <p>No qualifications yet. {isAdmin ? 'Click "Add New Qualification" to create one!' : 'Sign in as admin to add qualifications.'}</p>
         ) : (
           qualifications.map((q) => (
             <article key={q._id} style={styles.card}>
-              {isAuthenticated && (
+              {isAdmin && (
                 <button 
                   style={styles.deleteBtn}
                   onClick={() => handleDelete(q._id)}

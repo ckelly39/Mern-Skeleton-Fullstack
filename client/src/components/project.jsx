@@ -3,7 +3,7 @@ import { listProjects, createProject, deleteProject } from '../api/api-project';
 import { AuthContext } from '../auth/AuthContext';
 
 export default function Project() {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, isAdmin } = useContext(AuthContext);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -143,7 +143,7 @@ export default function Project() {
     <>
       <h2>Projects</h2>
       
-      {isAuthenticated && (
+      {isAdmin && (
         <>
           {!showForm ? (
             <button style={styles.addBtn} onClick={() => setShowForm(true)}>
@@ -234,7 +234,7 @@ export default function Project() {
                 (e.currentTarget.style.transform = "translateY(0)")
               }
             >
-              {isAuthenticated && (
+              {isAdmin && (
                 <button 
                   style={styles.deleteBtn}
                   onClick={() => handleDelete(p._id)}

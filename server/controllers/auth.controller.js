@@ -47,9 +47,10 @@ const signin = async (req, res) => {
       });
     }
     
-    // Create JWT token
+
+        // Create JWT token (include role!)
     const token = jwt.sign(
-      { _id: user._id },
+      { _id: user._id, role: user.role },  // NEW - includes role!
       config.jwtSecret,
       { expiresIn: '24h' }
     );
@@ -64,9 +65,10 @@ const signin = async (req, res) => {
       user: {
         _id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role  // NEW - include role in response!
       }
-    });
+  });
     
   } catch (err) {
     return res.status(401).json({

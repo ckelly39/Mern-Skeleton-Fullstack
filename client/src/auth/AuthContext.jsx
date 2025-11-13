@@ -19,13 +19,13 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // Login function
-  const login = (userData, userToken) => {
-    setUser(userData);
-    setToken(userToken);
-    localStorage.setItem('token', userToken);
-    localStorage.setItem('user', JSON.stringify(userData));
-  };
+ // Login function
+const login = (userData, userToken) => {
+  setUser(userData);
+  setToken(userToken);
+  localStorage.setItem('token', userToken);
+  localStorage.setItem('user', JSON.stringify(userData));
+};
 
   // Logout function
   const logout = () => {
@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     isAuthenticated: !!token,
+    isAdmin: user?.role === 'admin',  // NEW!
     loading
   };
 

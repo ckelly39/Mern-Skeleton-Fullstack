@@ -4,7 +4,7 @@ import { AuthContext } from '../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function Contact() {
-    const { isAuthenticated } = useContext(AuthContext);
+    const { isAuthenticated, isAdmin } = useContext(AuthContext);
     const navigate = useNavigate();
     
     // Form state management
@@ -32,11 +32,10 @@ export default function Contact() {
         e.preventDefault();
         
         // Check if user is logged in
-        if (!isAuthenticated) {
-            alert('Please sign in to submit a contact!');
-            navigate('/signin');
+        if (!isAdmin) {
+            alert('Only admin can create contacts!');
             return;
-        }
+            }
         
         setError('');
         setLoading(true);
@@ -87,11 +86,11 @@ export default function Contact() {
             <div className="contact-form">
                 <h3 className="form-heading">Send Me a Message (Saved to Database)</h3>
                 
-                {!isAuthenticated && (
+               {!isAdmin && (
                     <p style={{ color: '#f44336', fontWeight: 'bold' }}>
-                        ⚠️ Please sign in to submit a contact!
+                        ⚠️ Only admin can create contacts!
                     </p>
-                )}
+                    )}
                 
                 {success && (
                     <p style={{ color: '#4CAF50', fontWeight: 'bold' }}>
@@ -145,7 +144,7 @@ export default function Contact() {
                     <button 
                         type="submit" 
                         className="submit-button"
-                        disabled={loading || !isAuthenticated}
+                        disabled={loading || !isAdmin}
                     >
                         {loading ? 'Saving...' : 'Save Contact'}
                     </button>

@@ -25,6 +25,8 @@ export default function Signin() {
 
     try {
       const data = await signin(values);
+      console.log('Signin response:', data); // ADD THIS!
+      console.log('User role:', data.user.role); // ADD THIS!
       login(data.user, data.token);
       navigate('/');
     } catch (err) {
