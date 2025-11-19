@@ -2,8 +2,7 @@
 
 ## Student Information
 - Name: Kelly Cyusa
-- Course: COMP229 - Web Application Development
-- Assignment: 3 - Full Stack Integration
+- Course: Web Application Development
 
 ## Application Overview
 A full-stack MERN (MongoDB, Express, React, Node.js) portfolio application with complete authentication and CRUD operations.
